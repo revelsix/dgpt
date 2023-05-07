@@ -1,6 +1,6 @@
 {
-  "dgg_key": "obamna",
+  "discord_token": "obamna",
   "openai_key": "cantclosevim",
-  "admins": ["tena"],
-  "blacklist": []
+  "admins": [1234567891011],
+  "blacklist": [1110987654321]
 }
