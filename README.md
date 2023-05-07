@@ -3,7 +3,7 @@ a fork of dggpt designed for use as a discord chat bot
 
 this fork also tracks how many times a user has used the bot and allows you to limit them to a certain number of uses per day. neat.
 
-``cp sample-config config``
+``cp sample-config.json config.json``
 
 ``cp sample-system.txt system.txt``
 
