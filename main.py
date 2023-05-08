@@ -125,7 +125,8 @@ async def on_message(msg: Message):
     if client.user.mentioned_in(msg):
         if not pre_msg_check(msg):
             return
-        await gpt_respond(msg)
+        async with msg.channel.typing():
+            await gpt_respond(msg)
 
 
 if __name__ == "__main__":
