@@ -9,5 +9,4 @@ this fork also tracks how many times a user has used the bot and allows you to l
 
 ## current limitations
 - discord emotes suck so much i hate them (for example, OMEGALUL would be <:OMEGALUL:629446114906472455>). probably possible for gpt to type that consistently if i bothered changing base.json but that's a problem for future me to solve
-- haven't added support for slash commands yet (**DO NOT LOOK AT `main.py`** Aware)
 - dgg specific features like emotes and phrases were gutted from this version 

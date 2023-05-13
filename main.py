@@ -63,50 +63,62 @@ async def gpt_respond(msg: Message):
     print(f"current tokens: {total_tokens}")
     message_count[msg.author.id] += 1
 
-# COMING SOON I JUST WANNA GO TO BED GOODNIGHT
-# @tree.command()
-# async def cost(msg: Message):
-#     amount = round(total_tokens / 1000 * 0.002, 4)
-#     msg.reply(f"Revel has lost ${amount} so far LULW")
+
+@tree.command(name="cost", description="How much has the bot cost so far?")
+async def cost(ctx: discord.Interaction):
+    amount = round(total_tokens / 1000 * 0.002, 4)
+    await ctx.response.send_message(f"This bot has cost ${amount} to run so far this session lol")
 
 
-# @tree.command()
-# async def wipe(msg: Message):
-#     global history
-#     history = base_history()
-#     msg.reply(f"PepOk wiped history, tokens now at {count_tokens(history)}")
+@tree.command(name="wipe", description="Wipe the bot's history")
+async def wipe(ctx: discord.Interaction):
+    global history
+    if not is_admin(ctx.user.id):
+        await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
+        return
+    history = base_history()
+    await ctx.response.send_message(f"Wiped history, tokens now at {count_tokens(history)}")
 
 
-# @tree.command()
-# async def tokens(msg: Message):
-#     msg.reply(f"PepoTurkey current tokens: {count_tokens(history)}")
+@tree.command(name="tokens", description="How many tokens has the bot used so far?")
+async def tokens(ctx: discord.Interaction):
+    await ctx.response.send_message(f"Current tokens: {count_tokens(history)}")
 
 
-# @tree.command()
-# async def bla(msg: Message, name: str, *_):
-#     if name not in cfg["blacklist"]:
-#         cfg["blacklist"].append(name)
-#     save_cfg(cfg)
-#     msg.reply(f"PepOk {name} blacklisted")
+@tree.command(name="blacklist", description="Blacklist a user from using the bot")
+async def bla(ctx: discord.Interaction, user: User):
+    if not is_admin(ctx.user.id):
+        await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
+        return
+    if user.id not in cfg["blacklist"]:
+        cfg["blacklist"].append(user.id)
+    save_cfg(cfg)
+    ctx.response.send_message(f"{user.name} has been blacklisted")
 
 
-# @tree.command()
-# async def blr(msg: Message, key: str, *_):
-#     if key in cfg["blacklist"]:
-#         cfg["blacklist"].remove(key)
-#     save_cfg(cfg)
-#     msg.reply(f"PepOk {key} unblacklisted")
+@tree.command(name="unblacklist", description="Unblacklist a user from using the bot")
+async def blr(ctx: discord.Interaction, user: User):
+    if not is_admin(ctx.user.id):
+        await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
+        return
+    if user.id in cfg["blacklist"]:
+        cfg["blacklist"].remove(user.id)
+    else:
+        await ctx.response.send_message(f"{user.name} is not blacklisted")
+        return
+    save_cfg(cfg)
+    ctx.response.send_message(f"{user.name} has been unblacklisted")
 
 
-# @tree.command()
-# async def cd(msg: Message, seconds: str, *_):
-#     global cooldown
-#     try:
-#         cooldown = int(seconds)
-#     except ValueError:
-#         msg.reply(f"that's not an integer MMMM")
-#         return
-#     msg.reply(f"PepOk changed the cooldown to {cooldown}s")
+@tree.command(name="cooldown", description="Change the bot's cooldown")
+async def cd(ctx: discord.Interaction, seconds: str):
+    global cooldown
+    try:
+        cooldown = int(seconds)
+    except ValueError:
+        ctx.response.send_message(f"That's not an integer!", ephemeral=True)
+        return
+    ctx.response.send_message(f"Changed the cooldown to {cooldown}s")
 
 
 @client.event
