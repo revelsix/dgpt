@@ -17,8 +17,6 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-is_admin: Callable[[Message], bool] = lambda msg: msg.author.id in cfg["admins"]
-
 last_sent = datetime.now() - timedelta(seconds=60)
 history = base_history()
 print(f"base tokens: {count_tokens(history)}")
@@ -32,7 +30,7 @@ def pre_msg_check(msg: Message):
     global message_count
     if msg.author.id not in message_count:
         message_count[msg.author.id] = 0
-    if is_admin(msg):
+    if msg.author.id in cfg["admins"]:
         return True
     if (datetime.now() - last_sent).seconds < cooldown:
         print("on cooldown")
@@ -73,7 +71,7 @@ async def cost(ctx: discord.Interaction):
 @tree.command(name="wipe", description="Wipe the bot's history")
 async def wipe(ctx: discord.Interaction):
     global history
-    if not is_admin(ctx.user.id):
+    if ctx.user.id not in cfg["admins"]:
         await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
         return
     history = base_history()
@@ -87,7 +85,7 @@ async def tokens(ctx: discord.Interaction):
 
 @tree.command(name="blacklist", description="Blacklist a user from using the bot")
 async def bla(ctx: discord.Interaction, user: User):
-    if not is_admin(ctx.user.id):
+    if ctx.user.id not in cfg["admins"]:
         await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
         return
     if user.id not in cfg["blacklist"]:
@@ -98,7 +96,7 @@ async def bla(ctx: discord.Interaction, user: User):
 
 @tree.command(name="unblacklist", description="Unblacklist a user from using the bot")
 async def blr(ctx: discord.Interaction, user: User):
-    if not is_admin(ctx.user.id):
+    if ctx.user.id not in cfg["admins"]:
         await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
         return
     if user.id in cfg["blacklist"]:
@@ -113,6 +111,9 @@ async def blr(ctx: discord.Interaction, user: User):
 @tree.command(name="cooldown", description="Change the bot's cooldown")
 async def cd(ctx: discord.Interaction, seconds: str):
     global cooldown
+    if ctx.user.id not in cfg["admins"]:
+        await ctx.response.send_message("You don't have permission to use this!", ephemeral=True)
+        return
     try:
         cooldown = int(seconds)
     except ValueError:
