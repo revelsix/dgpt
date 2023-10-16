@@ -21,12 +21,12 @@ last_sent = datetime.now() - timedelta(seconds=60)
 history = base_history()
 print(f"base tokens: {count_tokens(history)}")
 cooldown = 2
-daily_messages = 15
+daily_messages = 5
 total_tokens = 0
 message_count = {}
 
 
-def pre_msg_check(msg: Message):
+async def pre_msg_check(msg: Message):
     global message_count
     if msg.author.id not in message_count:
         message_count[msg.author.id] = 0
@@ -41,7 +41,7 @@ def pre_msg_check(msg: Message):
     if bad_prompt(msg):
         return False
     if message_count[msg.author.id] > daily_messages:
-        msg.reply("You have reached your daily limit!")
+        await msg.reply("You have reached your daily limit!")
         return False
     return True
 
@@ -136,7 +136,7 @@ async def on_message(msg: Message):
     if last_sent.day != datetime.now().day:
         message_count.clear()
     if client.user.mentioned_in(msg):
-        if not pre_msg_check(msg):
+        if not await pre_msg_check(msg):
             return
         async with msg.channel.typing():
             await gpt_respond(msg)
