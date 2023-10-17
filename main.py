@@ -21,12 +21,12 @@ last_sent = datetime.now() - timedelta(seconds=60)
 history = base_history()
 print(f"base tokens: {count_tokens(history)}")
 cooldown = 2
-daily_messages = 5
+daily_messages = 4
 total_tokens = 0
 message_count = {}
 
 
-async def pre_msg_check(msg: Message):
+def pre_msg_check(msg: Message):
     global message_count
     if msg.author.id not in message_count:
         message_count[msg.author.id] = 0
@@ -41,15 +41,15 @@ async def pre_msg_check(msg: Message):
     if bad_prompt(msg):
         return False
     if message_count[msg.author.id] > daily_messages:
-        await msg.reply("You have reached your daily limit!")
+        msg.reply("You have reached your daily limit of GPT-4 requests!")
         return False
     return True
 
 
-async def gpt_respond(msg: Message):
+async def gpt_respond(msg: Message, model:str):
     global history, total_tokens, last_sent, message_count
     last_sent = datetime.now()
-    rsp = generate_response(msg, history)
+    rsp = generate_response(msg, history, model)
     if rsp[0] is None:
         return
     response = rsp[0]
@@ -59,7 +59,8 @@ async def gpt_respond(msg: Message):
     history = rsp[1]
     total_tokens += count_tokens(history)
     print(f"current tokens: {total_tokens}")
-    message_count[msg.author.id] += 1
+    if model == "gpt-4":
+        message_count[msg.author.id] += 1
 
 
 @tree.command(name="cost", description="How much has the bot cost so far?")
@@ -136,10 +137,13 @@ async def on_message(msg: Message):
     if last_sent.day != datetime.now().day:
         message_count.clear()
     if client.user.mentioned_in(msg):
-        if not await pre_msg_check(msg):
+        if not pre_msg_check(msg):
             return
+        model: str = "gpt-3.5-turbo"
+        if "!4" in msg.content:
+            model = "gpt-4"
         async with msg.channel.typing():
-            await gpt_respond(msg)
+            await gpt_respond(msg, model)
 
 
 if __name__ == "__main__":
