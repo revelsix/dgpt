@@ -21,7 +21,7 @@ last_sent = datetime.now() - timedelta(seconds=60)
 history = base_history()
 print(f"base tokens: {count_tokens(history)}")
 cooldown = 2
-daily_messages = 4
+daily_messages = 5
 total_tokens = 0
 message_count = {}
 
@@ -141,6 +141,7 @@ async def on_message(msg: Message):
             return
         model: str = "gpt-3.5-turbo"
         if "!4" in msg.content:
+            msg.content.replace("!4", "")
             model = "gpt-4"
         async with msg.channel.typing():
             await gpt_respond(msg, model)

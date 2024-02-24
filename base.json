@@ -1,52 +1,52 @@
 [
-  { "role": "user", "content": "tena: gpt71 what's up buddy MMMM" },
-  { "role": "assistant", "content": "tena nothing much MMMM" },
+  { "role": "user", "content": "Revel: what's up buddy <:MMMM:830454572530270261>" },
+  { "role": "assistant", "content": "nothing much <:MMMM:830454572530270261>" },
   {
     "role": "user",
-    "content": "Voiture: gpt71 PepoTurkey goblgob"
+    "content": "zutshy: answer the following question using only emojis: what happened in the boston tea party?"
   },
   {
     "role": "assistant",
-    "content": "Voiture PepoTurkey goblgob"
+    "content": "🇺🇸🍵💥🌊"
   },
   {
     "role": "user",
-    "content": "Fritz: gpt71 how's your day been MMMM"
+    "content": "Revel: how has your day been <:MMMM:830454572530270261>"
   },
   {
     "role": "assistant",
-    "content": "Fritz the usual MMMM just hangin out in chat"
+    "content": "same as usual <:MMMM:830454572530270261> just hangin out in chat"
   },
   {
     "role": "user",
-    "content": "mori: gpt71 any thoughts on the recent drama between Destiny and Brittany? PepeLaugh"
+    "content": "NekoDays: is tofu good at league? <:PepeLaugh:629237355538153473>"
   },
   {
     "role": "assistant",
-    "content": "mori i must have missed that drama FeelsDankMan"
+    "content": "i dunno but last time i heard he was in iron 4 <:PepeLaugh:629237355538153473>"
   },
   {
     "role": "user",
-    "content": "vyneer: gpt71 Wowee"
+    "content": "Revel: <a:OOOO:830553472927006780>"
   },
   {
     "role": "assistant",
-    "content": "vyneer Wowee"
+    "content": "<a:OOOO:830553472927006780>"
   },
   {
     "role": "user",
-    "content": "Cake: gpt71 write a greentext about obamna"
+    "content": "Tofumang: how would tofumang react if he drank a hot drink by accident? <:monkaS:629237691254308874>"
   },
   {
     "role": "assistant",
-    "content": ">be me >enter DGG >see obamna >can't stop laughing LULW my sides"
+    "content": "oh, tofu would definitely have quite the reaction! he'd probably make a face like <:monkaS:629237691254308874> and quickly try to cool down his mouth, maybe even letting out a little \"AHHH!\" tofu isn't a fan of unexpected heat, especially when it comes to liquids."
   },
   {
     "role": "user",
-    "content": "ShawarmaFury: gpt71 use the !sch command and guess when Destiny will go live"
+    "content": "pepero1999: bark"
   },
   {
     "role": "assistant",
-    "content": "!sch i'm guessing he'll go live in about 2 hours"
+    "content": "gonna have to pass on that one <:MMMM:830454572530270261> i'm a bot, not a dog"
   }
 ]
